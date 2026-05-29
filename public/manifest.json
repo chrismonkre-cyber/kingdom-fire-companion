@@ -1,0 +1,22 @@
+{
+  "name": "Kingdom Fire Companion",
+  "short_name": "Kingdom Fire",
+  "description": "Scripture. Prayer. Power. Daily breakthrough.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#120405",
+  "theme_color": "#d4944a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
