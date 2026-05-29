@@ -1,75 +1,76 @@
-import { ExternalLink, Mail } from "lucide-react";
-import PageHero from "../components/PageHero";
+import PageBackground from "../components/PageBackground";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import GlassCard from "../components/GlassCard";
+import PageHeader from "../components/PageHeader";
+import { ExternalLink } from "lucide-react";
 
-const links = [
-  { label: "Main Ministry Site", href: "https://kingdommandateministry.com", icon: ExternalLink },
-  { label: "Kingdom Prayer Wall", href: "https://prayer.kingdommandateministry.com", icon: ExternalLink },
-  { label: "The Bible Companion", href: "https://thebiblecompanion.online", icon: ExternalLink },
-  { label: "YouTube", href: "https://www.youtube.com/@KingdomMandateMinistry", icon: ExternalLink },
-  { label: "Contact / Prayer Email", href: "mailto:kingdommandateministry@gmail.com", icon: Mail },
+const DESKTOP = "https://media.base44.com/images/public/user_69a2073c194ba1099feee8ab/4de094bf4_about-desktop.png";
+const MOBILE = "https://media.base44.com/images/public/user_69a2073c194ba1099feee8ab/e679106c7_about-mobile.png";
+
+const SUITE_LINKS = [
+  { title: "Kingdom Mandate Ministry", url: "https://kingdommandateministry.com" },
+  { title: "The Bible Companion", url: "https://thebiblecompanion.online" },
+  { title: "Kingdom Prayer Wall", url: "https://prayer.kingdommandateministry.com" },
+  { title: "Kingdom Fire", url: "https://fire.kingdommandateministry.com" },
+  { title: "Kingdom Pathway", url: "https://pathway.kingdommandateministry.com" },
+  { title: "Kingdom Declarations", url: "https://declarations.kingdommandateministry.com" },
+  { title: "Kingdom Healing Room", url: "https://healing.kingdommandateministry.com" },
+  { title: "Kingdom Purpose Finder", url: "https://purpose.kingdommandateministry.com" },
+  { title: "Kingdom Identity", url: "https://identity.kingdommandateministry.com" },
+  { title: "Kingdom Gift Finder", url: "https://gifts.kingdommandateministry.com" },
+  { title: "Kingdom Battle Plan", url: "https://battle.kingdommandateministry.com" },
+  { title: "Kingdom Grace Vault", url: "https://grace.kingdommandateministry.com" },
+  { title: "Kingdom Revival Fire", url: "https://revival.kingdommandateministry.com" },
+  { title: "Kingdom Family Altar", url: "https://family.kingdommandateministry.com" },
+  { title: "Kingdom Marketplace Mandate", url: "https://marketplace.kingdommandateministry.com" },
+  { title: "Kingdom Freedom", url: "https://freedom.kingdommandateministry.com" },
+  { title: "YouTube Channel", url: "https://www.youtube.com/@KingdomMandateMinistry" },
+  { title: "Contact", url: "mailto:kingdommm.chris@gmail.com" },
+  { title: "Partner / Sow", url: "https://www.paypal.com/donate/?business=kingdommm.chris%40gmail.com" },
 ];
 
 export default function About() {
   return (
-    <div className="pb-24 lg:pb-12">
-      <PageHero
-        pageKey="about"
-        title="About Kingdom Fire Companion"
-        subtitle="An official Kingdom Mandate Ministry resource."
-      />
+    <PageBackground desktopImage={DESKTOP} mobileImage={MOBILE}>
+      <Navbar />
+      <div className="flex-1 flex flex-col items-center px-4 pb-12">
+        <PageHeader title="About Kingdom Fire Companion" subtitle="Scripture. Prayer. Power. Daily breakthrough." />
 
-      <div className="max-w-3xl mx-auto px-4 py-6 relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-32 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse, hsla(43,90%,55%,0.07) 0%, transparent 70%)" }} />
-
-        <div className="relative rounded-2xl overflow-hidden"
-          style={{
-            background: "linear-gradient(135deg, hsla(340,28%,18%,0.82), hsla(340,35%,11%,0.9))",
-            border: "1px solid hsla(43,80%,55%,0.38)",
-            boxShadow: "0 0 40px hsla(43,90%,55%,0.1), 0 20px 50px rgba(0,0,0,0.4)"
-          }}>
-          <div className="h-0.5" style={{ background: "linear-gradient(90deg, transparent, hsl(43,90%,60%), transparent)" }} />
-          <div className="p-6 md:p-10 space-y-6">
-            <p className="font-accent text-base md:text-lg text-foreground/88 italic leading-relaxed">
-              Kingdom Fire Companion is a Kingdom Mandate Ministry resource created to strengthen believers through Scripture, prayer, declarations, and Spirit-filled encouragement.
+        <GlassCard className="max-w-3xl w-full p-6 md:p-8 mb-6">
+          <p className="font-inter text-sm md:text-base text-amber-100/90 leading-relaxed mb-6">
+            Kingdom Fire Companion was created to help believers face daily battles with the Word of God, prayer, declarations, faith, courage, and Holy Spirit fire. This app is not about hype; it is about standing on Scripture, praying with authority, and walking out faith one step at a time.
+          </p>
+          <div className="border-t border-amber-500/20 pt-5">
+            <h3 className="font-cinzel text-lg font-semibold text-amber-400 mb-3">Ministry Connection</h3>
+            <p className="font-inter text-sm md:text-base text-amber-100/85 leading-relaxed">
+              Kingdom Mandate Ministry exists to awaken believers, stir the fire of revival, and equip the Body of Christ to walk in purpose, power, healing, and truth.
             </p>
-            <p className="font-accent text-base md:text-lg text-foreground/88 italic leading-relaxed">
-              {"Whether you are facing fear, seeking healing, believing for breakthrough, or simply need a daily word of fire — this companion is designed to help you stand on the Word of God, pray with boldness, and walk in daily victory."}
-            </p>
-
-            <div className="divider-gold" />
-
-            <div>
-              <h3 className="font-heading text-sm text-gold tracking-widest uppercase mb-3">Our Mission</h3>
-              <p className="font-accent text-base text-foreground/82 italic leading-relaxed">
-                {"Kingdom Mandate Ministry exists to advance the Kingdom through The Holy Spirit, Healing & Power."}
-              </p>
-            </div>
-
-            <div className="divider-gold" />
-
-            <div>
-              <h3 className="font-heading text-sm text-gold tracking-widest uppercase mb-4">Connect with Us</h3>
-              <div className="space-y-2">
-                {links.map((link) => {
-                  const Icon = link.icon;
-                  return (
-                    <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 rounded-xl transition-all group hover:bg-white/5">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-                        style={{ background: "hsla(43,80%,55%,0.12)", border: "1px solid hsla(43,80%,55%,0.2)" }}>
-                        <Icon className="w-3.5 h-3.5 text-gold/70 group-hover:text-gold transition-colors" />
-                      </div>
-                      <span className="text-sm text-foreground/78 group-hover:text-gold transition-colors">{link.label}</span>
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
           </div>
-          <div className="h-0.5" style={{ background: "linear-gradient(90deg, transparent, hsl(43,90%,60%), transparent)" }} />
-        </div>
+        </GlassCard>
+
+        {/* App Suite */}
+        <GlassCard className="max-w-3xl w-full p-6 md:p-8">
+          <h2 className="font-cinzel text-xl md:text-2xl font-bold text-center mb-6" style={{ color: "#d4a843" }}>
+            Kingdom Mandate Ministry App Suite
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {SUITE_LINKS.map((l) => (
+              <a
+                key={l.title}
+                href={l.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between gap-2 px-4 py-3 rounded-lg bg-black/20 border border-amber-500/20 hover:bg-amber-500/10 hover:border-amber-400/40 transition-all group"
+              >
+                <span className="font-inter text-sm text-amber-200/90 group-hover:text-amber-200">{l.title}</span>
+                <ExternalLink className="w-3.5 h-3.5 text-amber-500/40 group-hover:text-amber-400 shrink-0" />
+              </a>
+            ))}
+          </div>
+        </GlassCard>
       </div>
-    </div>
+      <Footer />
+    </PageBackground>
   );
 }

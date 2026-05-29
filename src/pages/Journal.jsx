@@ -1,109 +1,152 @@
 import { useState, useEffect } from "react";
-import { journalSections } from "../data/content";
-import { Save, Trash2, PenLine } from "lucide-react";
-import PageHero from "../components/PageHero";
-import { toast } from "sonner";
+import PageBackground from "../components/PageBackground";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import GlassCard from "../components/GlassCard";
+import PageHeader from "../components/PageHeader";
+import { Plus, Trash2, BookOpen } from "lucide-react";
+
+const DESKTOP = "https://media.base44.com/images/public/user_69a2073c194ba1099feee8ab/a553e23e2_journal-desktop.png";
+const MOBILE = "https://media.base44.com/images/public/user_69a2073c194ba1099feee8ab/06b73a1ea_journal-mobile.png";
+
+const PROMPTS = [
+  "What battle am I bringing before God today?",
+  "What Scripture am I standing on?",
+  "What declaration am I speaking over this situation?",
+  "What step of obedience do I need to take?",
+  "Where have I already seen God moving?",
+  "What testimony am I believing for?",
+];
 
 const STORAGE_KEY = "kingdom-fire-journal";
 
+function loadEntries() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  return raw ? JSON.parse(raw) : [];
+}
+
+function saveEntries(entries) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+}
+
 export default function Journal() {
-  const [entries, setEntries] = useState({});
-  const [loaded, setLoaded] = useState(false);
+  const [entries, setEntries] = useState(loadEntries);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setEntries(JSON.parse(saved));
-    } catch {}
-    setLoaded(true);
-  }, []);
+    saveEntries(entries);
+  }, [entries]);
 
-  const update = (id, value) => setEntries((prev) => ({ ...prev, [id]: value }));
-
-  const save = () => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-      toast.success("Journal saved");
-    } catch {
-      toast.error("Could not save. Please copy your notes.");
-    }
+  const handleSave = () => {
+    if (!title.trim() || !content.trim()) return;
+    const entry = {
+      id: Date.now(),
+      title: title.trim(),
+      content: content.trim(),
+      date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
+    };
+    setEntries([entry, ...entries]);
+    setTitle("");
+    setContent("");
+    setShowForm(false);
   };
 
-  const clear = () => {
-    if (window.confirm("Clear all journal entries? This cannot be undone.")) {
-      setEntries({});
-      localStorage.removeItem(STORAGE_KEY);
-      toast.success("Journal cleared");
-    }
+  const handleDelete = (id) => {
+    setEntries(entries.filter((e) => e.id !== id));
   };
-
-  if (!loaded) return null;
 
   return (
-    <div className="pb-24 lg:pb-12">
-      <PageHero
-        pageKey="journal"
-        title="Breakthrough Journal"
-        subtitle="Pour out your heart. Record what God is speaking. Capture every testimony and breakthrough."
-      />
+    <PageBackground desktopImage={DESKTOP} mobileImage={MOBILE}>
+      <Navbar />
+      <div className="flex-1 flex flex-col items-center px-4 pb-12">
+        <PageHeader title="Breakthrough Journal" subtitle="Write the promise. Track the prayer. Remember the victory." />
 
-      <div className="max-w-3xl mx-auto px-4 py-6 relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-xl h-40 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse, hsla(25,100%,45%,0.10) 0%, hsla(43,95%,55%,0.06) 40%, transparent 70%)" }} />
+        {/* Prompts */}
+        <GlassCard className="max-w-3xl w-full p-5 mb-6">
+          <h3 className="font-cinzel text-base font-semibold text-amber-400 mb-3">Journal Prompts</h3>
+          <ul className="space-y-1.5">
+            {PROMPTS.map((p) => (
+              <li key={p} className="font-inter text-sm text-amber-100/80 flex gap-2">
+                <span className="text-amber-500 shrink-0">•</span> {p}
+              </li>
+            ))}
+          </ul>
+        </GlassCard>
 
-        <div className="flex justify-center gap-3 mb-8">
-          <button onClick={save} className="btn-gold rounded-xl py-2.5 px-5 text-[11px] flex items-center gap-2 transition-all tracking-widest uppercase">
-            <Save className="w-3.5 h-3.5" /> Save Journal
+        {/* New Entry Toggle */}
+        {!showForm && (
+          <button
+            onClick={() => setShowForm(true)}
+            className="flex items-center gap-2 px-6 py-3 mb-6 rounded-xl font-cinzel text-sm font-semibold bg-amber-600/80 hover:bg-amber-500/90 text-white border border-amber-400/40 transition-all shadow-md"
+          >
+            <Plus className="w-4 h-4" /> New Journal Entry
           </button>
-          <button onClick={clear} className="btn-glass rounded-xl py-2.5 px-5 text-[11px] flex items-center gap-2 transition-all tracking-widest uppercase">
-            <Trash2 className="w-3.5 h-3.5" /> Clear
-          </button>
-        </div>
+        )}
 
-        <div className="space-y-4">
-          {journalSections.map((section) => (
-            <div key={section.id}
-              className="relative rounded-2xl overflow-hidden shimmer-gold"
-              style={{
-                background: "linear-gradient(145deg, hsla(350,48%,14%,0.90), hsla(355,55%,8%,0.96))",
-                border: "1px solid hsla(43,82%,52%,0.42)",
-                boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 hsla(43,95%,65%,0.10), 0 0 30px hsla(43,90%,50%,0.06)"
-              }}>
-              <div className="p-5 space-y-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md flex items-center justify-center"
-                    style={{
-                      background: "hsla(43,95%,60%,0.18)",
-                      border: "1px solid hsla(43,95%,62%,0.35)",
-                      boxShadow: "0 0 10px hsla(43,95%,58%,0.18)"
-                    }}>
-                    <PenLine className="w-3 h-3 text-gold" />
-                  </div>
-                  <h3 className="font-heading text-xs text-gold tracking-wide">{section.title}</h3>
-                </div>
-                <textarea
-                  value={entries[section.id] || ""}
-                  onChange={(e) => update(section.id, e.target.value)}
-                  placeholder={section.placeholder}
-                  rows={4}
-                  className="w-full rounded-xl p-3 text-sm placeholder:text-muted-foreground/45 focus:outline-none resize-y font-accent text-base leading-relaxed"
-                  style={{
-                    background: "hsla(350,40%,8%,0.72)",
-                    border: "1px solid hsla(43,70%,42%,0.28)",
-                    color: "hsl(40,40%,96%)",
-                  }}
-                  onFocus={(e) => { e.target.style.borderColor = "hsla(43,92%,60%,0.60)"; e.target.style.boxShadow = "0 0 16px hsla(43,90%,55%,0.14)"; }}
-                  onBlur={(e)  => { e.target.style.borderColor = "hsla(43,70%,42%,0.28)"; e.target.style.boxShadow = "none"; }}
-                />
-              </div>
+        {/* New Entry Form */}
+        {showForm && (
+          <GlassCard className="max-w-3xl w-full p-5 mb-6 space-y-4">
+            <input
+              type="text"
+              placeholder="Entry title..."
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg bg-black/30 border border-amber-500/30 text-amber-100 font-inter text-sm placeholder-amber-100/40 focus:outline-none focus:border-amber-400/60"
+            />
+            <textarea
+              placeholder="Write your breakthrough journal entry..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows={6}
+              className="w-full px-4 py-3 rounded-lg bg-black/30 border border-amber-500/30 text-amber-100 font-inter text-sm placeholder-amber-100/40 focus:outline-none focus:border-amber-400/60 resize-none"
+            />
+            <div className="flex gap-3">
+              <button
+                onClick={handleSave}
+                className="px-6 py-2.5 rounded-lg font-cinzel text-sm font-semibold bg-amber-600/80 hover:bg-amber-500/90 text-white border border-amber-400/40 transition-all"
+              >
+                Save Entry
+              </button>
+              <button
+                onClick={() => { setShowForm(false); setTitle(""); setContent(""); }}
+                className="px-6 py-2.5 rounded-lg font-inter text-sm text-amber-200/70 hover:text-amber-200 bg-red-950/30 border border-amber-500/20 transition-all"
+              >
+                Cancel
+              </button>
             </div>
+          </GlassCard>
+        )}
+
+        {/* Saved Entries */}
+        <div className="max-w-3xl w-full space-y-3">
+          {entries.length === 0 && (
+            <GlassCard className="p-8 text-center">
+              <BookOpen className="w-10 h-10 text-amber-400/50 mx-auto mb-3" />
+              <p className="font-inter text-sm text-amber-100/60">Your breakthrough journal is waiting. Start writing what God is doing.</p>
+            </GlassCard>
+          )}
+          {entries.map((e) => (
+            <GlassCard key={e.id} className="p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1">
+                  <h3 className="font-cinzel text-base font-semibold text-amber-300">{e.title}</h3>
+                  <p className="font-inter text-xs text-amber-100/50 mb-2">{e.date}</p>
+                  <p className="font-inter text-sm text-amber-100/85 leading-relaxed whitespace-pre-wrap">{e.content}</p>
+                </div>
+                <button
+                  onClick={() => handleDelete(e.id)}
+                  className="p-2 rounded-lg text-red-400/70 hover:text-red-300 hover:bg-red-900/30 transition-all shrink-0"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </GlassCard>
           ))}
         </div>
-
-        <p className="text-xs text-center mt-6 italic font-accent" style={{ color: "hsla(40,20%,70%,0.65)" }}>
-          Your journal is saved locally in your browser. For extra safety, copy important notes to a safe place.
-        </p>
       </div>
-    </div>
+      <Footer />
+    </PageBackground>
   );
 }

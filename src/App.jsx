@@ -5,13 +5,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import Layout from './components/Layout';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
-import Choose from './pages/Choose';
 import DailyFire from './pages/DailyFire';
+import Choose from './pages/Choose';
 import Declarations from './pages/Declarations';
 import Journal from './pages/Journal';
-import PrayerVault from './pages/PrayerVault';
+import PrayerAltar from './pages/PrayerAltar';
 import Resources from './pages/Resources';
 import About from './pages/About';
 
@@ -41,17 +41,15 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/choose" element={<Choose />} />
-        <Route path="/daily-fire" element={<DailyFire />} />
-        <Route path="/declarations" element={<Declarations />} />
-        <Route path="/journal" element={<Journal />} />
-        <Route path="/prayer-vault" element={<PrayerVault />} />
-        <Route path="/resources" element={<Resources />} />
-        <Route path="/about" element={<About />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Route>
+      <Route path="/" element={<Home />} />
+      <Route path="/daily" element={<DailyFire />} />
+      <Route path="/choose" element={<Choose />} />
+      <Route path="/declarations" element={<Declarations />} />
+      <Route path="/journal" element={<Journal />} />
+      <Route path="/prayer" element={<PrayerAltar />} />
+      <Route path="/resources" element={<Resources />} />
+      <Route path="/about" element={<About />} />
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 };
@@ -63,6 +61,7 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
+          <ScrollToTop />
           <AuthenticatedApp />
         </Router>
         <Toaster />
